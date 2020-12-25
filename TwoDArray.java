@@ -23,7 +23,7 @@ public class TwoDArray
 
     		}
     	}
-    	int finResult = -2147483648;//Lowest int. No number can be lower, so this takes care of the cases where the max result is negative
+    	int finResult = Integer.MIN_VALUE;//Lowest int. No number can be lower, so this takes care of the cases where the max result is negative
     	for(int i : results)
     	{
     		if(i > finResult)
