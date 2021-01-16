@@ -7,47 +7,39 @@ import re
 import sys
 
 # Complete the countInversions function below.
-def sort_pair(arr0, arr1):
-    if len(arr0) > len(arr1):
-        return arr1, arr0
-    else:
-        return arr0, arr1
-    
-def merge(arr0, arr1):
-    inversions = 0
-    result = []
-    while len(arr0) > 0 and len(arr1) > 0:
-        if arr0[0] <= arr1[0]:
-            result.append(arr0.pop(0))
+def merge(a, lowerlimit, middle, highlimit):
+    c = []
+    i = lowerlimit
+    j = middle + 1
+    s = 0
+    while i <= middle and j <= highlimit:
+        if a[i] > a[j]:
+            # If a[i] > a[j] the element should swap. 
+            s += (middle - i + 1)
+            c.append(a[j])
+            j += 1
         else:
-            # count the inversion right here: add the length of left array
-            inversions += len(arr0)
-            result.append(arr1.pop(0))
+            c.append(a[i])
+            i += 1
+    # Appends the rest of the elements
+    while i <= middle:
+        c.append(a[i])
+        i += 1
+    while j <= highlimit:
+        c.append(a[j])
+        j += 1
+    a[lowerlimit: highlimit + 1] = c
+    return s
             
-    if len(arr0) == 0:
-        result += arr1
-    elif len(arr1) == 0:
-        result += arr0
-        
-    return result, inversions
 
-def sort(arr):
-    length = len(arr)
-    mid = length//2
-    if length >= 2:
-        sorted_0, counts_0 = sort(arr[:mid])
-        sorted_1, counts_1 = sort(arr[mid:])
-        result, counts = merge(sorted_0, sorted_1)
-        return result, counts + counts_0 + counts_1
-    else:
-        return arr, 0
-
-def countInversions(a):
-    final_array, inversions = sort(a)
-    # print(final_array)
-    return inversions
-      
-
+def count(a, lowerlimit, highlimit):
+    if lowerlimit >= highlimit:
+        return 0
+    middle = lowerlimit + (highlimit - lowerlimit) // 2
+    s = count(a, lowerlimit, middle)
+    s += count(a, middle + 1, highlimit)
+    s += merge(a, lowerlimit, middle, highlimit)
+    return s
 
 if __name__ == '__main__':
     #fptr = open(os.environ['OUTPUT_PATH'], 'w')
@@ -59,52 +51,58 @@ if __name__ == '__main__':
 
         arr = list(map(int, input().rstrip().split()))
 
-        result = countInversions(arr)
+        result = count(arr, 0, len(arr) - 1)
 
         print(result)
-        #fptr.write(str(result) + '\n')
-
-    #fptr.close()
 
 """
-# Complete the countInversions function below.
-def countInversions(arr: list):
-	print(arr)
-	temp = []
-	mergeSort(arr, temp, 0, len(arr) - 1)
-	print(arr)
+def merge(a, l, m, h):
+    c = []
+    i = l
+    j = m + 1
+    s = 0
+    
+    while i <= m and j <= h:
+        if a[i] > a[j]:
+            # there is an inversion
+            s += (m - i + 1)
+            c.append(a[j])
+            j += 1
+        else:
+            c.append(a[i])
+            i += 1
+            
+    # Adding remaning numbers
+    while i <= m:
+        c.append(a[i])
+        i += 1
+    while j <= h:
+        c.append(a[j])
+        j += 1
+        
+    
+    a[l: h + 1] = c
+    
+    return s
+            
 
-def mergeSort(arr: list, temp: list, leftStart: int, rightEnd: int):
-	print("leftStart: {}".format(leftStart))
-	print("rightEnd: {}".format(rightEnd))
-	if leftStart >= rightEnd:
-		return None
-	middle = (leftStart + rightEnd) // 2
-	mergeSort(arr, temp, leftStart, middle)
-	mergeSort(arr, temp, middle + 1, rightEnd)
-	mergeHalves(arr, temp, leftStart, rightEnd)
+def count(a, l, h):
+    if l >= h:
+        return 0
+    #print(l, h)
+    m = l + (h - l) // 2
+    s = count(a, l, m)
+    s += count(a, m + 1, h)
+    s += merge(a, l, m, h)
+    return s
 
-def mergeHalves(arr: list, temp: list, leftStart: int, rightEnd: int):
-	leftEnd = (rightEnd + leftStart) / 2
-	rightStart = leftEnd + 1
-	size = rightEnd - leftStart + 1
-	left = leftStart
-	right = rightStart
-	index = leftStart
-	inversions = 0
-	while (left <= leftEnd and right <= rightEnd):
-		if arr[left] <= arr[right]:
-			temp[index] = arr[left]
-			left += 1
-		else:
-			temp[index] = arr[right]
-			right += 1
-		index += 1
-		inversions+=1
-	arr[left:] = temp[index:leftEnd - left + 1]
-	arr[right:] = temp[index: rightEnd - right + 1]
-	temp[leftStart:] = arr[leftStart: size]
-	#system.arraycopy(arr, left, temp, index, leftEnd - left + 1)
-	#system.arraycopy(arr, right, temp, index, rightEnd - right + 1)
-	#system.arraycopy(temp, leftStart, arr, leftStart, size)
+def count_inversions(a):
+    return count(a, 0, len(a) - 1)
+
+t = int(input().strip())
+for a0 in range(t):
+    n = int(input().strip())
+    arr = list(map(int, input().strip().split(' ')))
+    print(count_inversions(arr))
+
 """
