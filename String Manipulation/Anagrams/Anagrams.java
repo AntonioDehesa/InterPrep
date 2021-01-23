@@ -1,10 +1,5 @@
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
 
 public class Anagrams {
 
@@ -54,3 +49,15 @@ public class Anagrams {
         scanner.close();
     }
 }
+/*
+public static int numberNeeded(String first, String second) {
+        int[] freq = new int[26];
+        first.chars().forEach((c) -> {
+            freq[c - 97]++;
+        });
+        second.chars().forEach((c) -> {
+            freq[c - 97]--;
+        });
+        return Arrays.stream(freq).map(Math::abs).sum();
+}
+*/
