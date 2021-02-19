@@ -5,6 +5,7 @@ import java.text.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
+import java.util.stream.Collectors;
 
 public class Solution
 {
@@ -29,43 +30,47 @@ public class Solution
         }
         HashMap<Character, Integer> rever = new HashMap<Character, Integer>(splitted);
         ArrayList<Character> res = new ArrayList<Character>();
-        
-        /*
-# Complete the reverseShuffleMerge function below.
-def reverseShuffleMerge(s):
-    splitted, rever = splitString(s)
-    res = []
-    for char in reversed(s):
-        if splitted[char] > 0:
-            while res and res[-1] > char and rever[res[-1]] > 0:
-                # while res -> if the res array is not empty
-                # while res[-1] > char -> if the last element of res is lexicographically bigger than the current char 
-                # rever[res[-1]] > 0 -> if there are available chars in rever
-                removed = res.pop() # the first element of res is deleted, and we increment one in the available chars, and decrease one in the used chars
-                splitted[removed] += 1
-                rever[removed] -= 1
-            res.append(char)
-            splitted[char] -= 1
-        else:
-            rever[char] -= 1
-    return "".join(res)
-        */
+        StringBuilder temp = new StringBuilder();
+        temp.append(s);
+        temp.reverse();
+        s = temp.toString();
+        char removed;
+        for( char chr : s.toCharArray())
+        {
+            if (splitted.get(chr) > 0)
+            {
+                while (!res.isEmpty() && res.get(res.size() - 1) > chr && rever.get(res.get(res.size() - 1)) > 0)
+                {
+                    removed = res.remove(res.size() - 1);
+                    splitted.put(removed, splitted.get(removed) + 1);
+                    rever.put(removed, rever.get(removed) - 1);
+                }
+                res.add(chr);
+                splitted.put(chr, splitted.get(chr) - 1);
+            }
+            else
+            {
+                rever.put(chr, rever.get(chr) - 1);
+            }
+        }
+        return res.stream().map(Object::toString)
+        .collect(Collectors.joining(""));
     }
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+        //BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
         String s = scanner.nextLine();
 
         String result = reverseShuffleMerge(s);
 
-        bufferedWriter.write(result);
-        bufferedWriter.newLine();
+        //bufferedWriter.write(result);
+        //bufferedWriter.newLine();
 
-        bufferedWriter.close();
-
+        //bufferedWriter.close();
+        System.out.println(result);
         scanner.close();
     }
 }

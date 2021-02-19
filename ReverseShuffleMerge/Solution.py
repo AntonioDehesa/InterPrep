@@ -26,7 +26,7 @@ def reverseShuffleMerge(s):
                 # while res -> if the res array is not empty
                 # while res[-1] > char -> if the last element of res is lexicographically bigger than the current char 
                 # rever[res[-1]] > 0 -> if there are available chars in rever
-                removed = res.pop() # the first element of res is deleted, and we increment one in the available chars, and decrease one in the used chars
+                removed = res.pop() # the last element of res is deleted, and we increment one in the available chars, and decrease one in the used chars
                 splitted[removed] += 1
                 rever[removed] -= 1
             res.append(char)
