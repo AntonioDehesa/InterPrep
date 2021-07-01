@@ -28,19 +28,34 @@ class Tree:
                 n = n.nextval
             n.nextval = end
         def binaryTree(self,nextNode):
-            node = Tree.Node(dataval=nextNode, state=state.unvisited)
-            if (nextNode > self.dataval):
-                if (self.leftPath == None):
-                    #self.leftPath.binaryTree(nextNode)
-                    self.leftPath = node
-                else:
-                    self.leftPath.binaryTree(nextNode)
-            if (nextNode < self.dataval):
-                if (self.rightPath == None):
-                    #self.rightPath.binaryTree(nextNode)
-                    self.rightPath = node
-                else:
-                    self.rightPath.binaryTree(nextNode)
+            if type(nextNode) == int:
+                node = Tree.Node(dataval=nextNode, state=state.unvisited)
+                if (nextNode > self.dataval):
+                    if (self.leftPath == None):
+                        #self.leftPath.binaryTree(nextNode)
+                        self.leftPath = node
+                    else:
+                        self.leftPath.binaryTree(nextNode)
+                if (nextNode < self.dataval):
+                    if (self.rightPath == None):
+                        #self.rightPath.binaryTree(nextNode)
+                        self.rightPath = node
+                    else:
+                        self.rightPath.binaryTree(nextNode)
+            else:
+                node = nextNode
+                if (nextNode.dataval > self.dataval):
+                    if (self.leftPath == None):
+                        #self.leftPath.binaryTree(nextNode)
+                        self.leftPath = node
+                    else:
+                        self.leftPath.binaryTree(nextNode)
+                if (nextNode.dataval < self.dataval):
+                    if (self.rightPath == None):
+                        #self.rightPath.binaryTree(nextNode)
+                        self.rightPath = node
+                    else:
+                        self.rightPath.binaryTree(nextNode)
         
         def printData(self):
             if self.leftPath:
@@ -62,15 +77,39 @@ class Tree:
         
         for node in self.allNodes:
             node.state = state.unvisited
+        q = []
+
+        start.state = state.visiting
+
+        q.append(start)
+        u = Tree.Node()
+        while q:
+            u = q.pop(0)
+            if u:
+                for v in [u.leftPath, u.rightPath]:
+                    if v.state == state.unvisited:
+                        if v == end:
+                            return True
+                        else:
+                            v.state = state.visiting
+                            q.append(v)
+        return False
 
 
 if __name__ == "__main__":
     tree = Tree(12,state.unvisited)
-    tree.root.binaryTree(6)
+    node1 = Tree.Node(6)
+    node2 = Tree.Node(14)
+    node3 = Tree.Node(3)
+    """tree.root.binaryTree(6)
     tree.root.binaryTree(14)
-    tree.root.binaryTree(3)
+    tree.root.binaryTree(3)"""
+    tree.root.binaryTree(node1)
+    tree.root.binaryTree(node2)
+    tree.root.binaryTree(node3)
     tree.root.printData()
     nodes = tree.getAllNodes()
     for i in range(len(nodes)):
         print(nodes[i].dataval)
     print("nein")
+    print(tree.routeBetweenNodes(node1,node3))
