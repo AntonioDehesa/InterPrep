@@ -1,9 +1,18 @@
 #Description
 """
-Given a positive integer, print the next smallest 
-and the next largest number that have the same number of 1 bits in their binary representation. 
+Write a function to determine the number of bits you would need to flip to convert integer A
+to integer B
 
+Example
 
+Input: 29 (or 11101), 15 (or: 01111)
+Output: 2
+
+the easiest solution I can think of is brute force. like, we could go bit by bit 
+and check if they are the same. if not, counter++
+
+another approach would be to use an XOR to check the differences in the numbers, and count the number of 1s there
+lest do both and check whic hwould be better
 """
 
 def flipBit2Win(input: str) -> int:#Input = 11011101111 for tests
