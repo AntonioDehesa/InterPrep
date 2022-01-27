@@ -7,7 +7,43 @@ Game 2: You get three shots and you have to make two of three shots.
 If p is the probability of making a particular shot, 
 for which values of p should you pick one game or the other
 
+Game 1: 
+The probability is P
 
+Game 2: 
+The probability depends on:
+If we have to make 2/3 or at least 2/3. 
+
+If exactly 2/3:
+G2: P(1 and 2 but no 3) + P(1 and 3 but no 2) + P(3 and 2 but no 1)
+G2: (P*P*(1-p))*3
+G2: 3(P²-P³)
+
+If at least 2/3:
+G2: P(1 and 2 but no 3) + P(1 and 3 but no 2) + P(3 and 2 but no 1) + P³
+G2: (P*P*(1-p))*3 + P³
+G2: 3(P²-P³) + P³
+G2: 3P² - 2P³
+
+so
+
+If 1
+G1 > G2?
+P = 3P² - 3P³
+P + 3 P³ - 3P² = 0
+1 + 3P² - 3P = 0
+
+Cannot be solved with real numbers...
+
+If 2
+G1 = G2
+P = 3P² - 2P³
+P + 2P³ - 3P² = 0
+1 + 2P² - 3P = 0
+two solutions: P = 1/2 or P = 1
+
+So if 0 < P < 1/2 G1
+if 1/2 < P < 1 G2
 """
 def pairWiseSwap(input: int):
     a = ((input & 0x5555) << 1)
