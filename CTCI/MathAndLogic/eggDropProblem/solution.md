@@ -14,4 +14,6 @@ Therefore, the higher we go, The slower we go up
 This would lead to this equation: 
 (X*(X+1))/2 = N
 
+Where N = 100 in this case. 
+
 Then we would manually have to check if round up or down, depending of which completes our best case scenario. 
